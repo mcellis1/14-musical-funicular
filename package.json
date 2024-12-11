@@ -1,0 +1,27 @@
+{
+  "name": "14-mvc-tech-blog",
+  "version": "1.0.0",
+  "description": "a blog webiste that allows users to make post and add comments to other blogs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node seeds/index.js"
+  },
+  "author": "mcellis1",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "connect-session-sequelize": "^7.1.4",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-handlebars": "^6.0.6",
+    "express-session": "^1.17.3",
+    "handlebars": "^4.7.7",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.20.1",
+    "pg": "8.13.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
