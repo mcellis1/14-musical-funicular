@@ -1,0 +1,28 @@
+<h2>welcome {{username}}</h2>
+
+<div>
+    {{#if blogs.length}}
+    {{#each blogs as |blog|}}
+    {{> dashboardBlog blog}}
+    <br>
+    {{/each}}
+    {{/if}}
+</div>
+
+{{#if (is_my_page user.id userId)}}
+<form>
+    <div>
+        <label>title</label>
+        <input id="title-input" maxlength="50" />
+    </div>
+    <div>
+        <label>body</label>
+        <textarea id="body-input" rows="10"></textarea>
+    </div>
+    <div>
+        <button type="submit">post</button>
+    </div>
+</form>
+{{/if}}
+
+<script src="/js/dashboard.js"></script>
