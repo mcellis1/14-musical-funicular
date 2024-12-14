@@ -10,7 +10,7 @@ const deletePostHandler = async (event) => {
             method: 'DELETE'
         });
         if (response.ok) {
-            document.location.assign(`/dashboard`);
+            document.location.assign('/dashboard');
         } else {
             alert(response.statusText);
         }
@@ -19,8 +19,8 @@ const deletePostHandler = async (event) => {
     }
 };
 
-const deleteButton = document.querySelectorAll("#deleteBtn");
+const deleteButton = document.querySelectorAll('#deleteBtn');
 
 for (let i = 0; i < deleteButton.length; i++) {
-    deleteButton[i].addEventListener("click", deletePostHandler);
+    deleteButton[i].addEventListener('click', deletePostHandler);
 }
