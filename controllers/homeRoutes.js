@@ -42,40 +42,7 @@ router.get('/signup', (req, res) => {
     res.render('signup')
 })
 
-router.get('/dashboard', withAuth, async (req, res) => {
-    try {
-        const userData = await User.findOne({
-            where: {
-                id: req.session.user_id
-            },
-            include: [
-                {
-                    model: Blog,
-                    attributes: ['id', 'title', 'date', 'user_id']
-                }
-            ]
-        })
-
-        const user = userData.get({ plain: true })
-        console.log(user)
-        res.render('dashboard', {
-            ...user,
-            logged_in: req.session.logged_in
-        })
-    } catch (err) {
-        res.status(500).json(err)
-    }
-})
-
-router.get('/post', withAuth, async (req, res) => {
-    try {
-        res.render('post', { logged_in: req.session.logged_in })
-    } catch (err) {
-        res.status(500).json(err)
-    }
-})
-
-router.get('/blog/:id', withAuth, async (req, res) => {
+router.get('/blog/:id', async (req, res) => {
     try {
         const blogData = await Blog.findOne({
             where: {
@@ -109,6 +76,39 @@ router.get('/blog/:id', withAuth, async (req, res) => {
             comments,
             logged_in: req.session.logged_in
         })
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+router.get('/dashboard', withAuth, async (req, res) => {
+    try {
+        const userData = await User.findOne({
+            where: {
+                id: req.session.user_id
+            },
+            include: [
+                {
+                    model: Blog,
+                    attributes: ['id', 'title', 'date', 'user_id']
+                }
+            ]
+        })
+
+        const user = userData.get({ plain: true })
+        console.log(user)
+        res.render('dashboard', {
+            ...user,
+            logged_in: req.session.logged_in
+        })
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+router.get('/post', withAuth, async (req, res) => {
+    try {
+        res.render('post', { logged_in: req.session.logged_in })
     } catch (err) {
         res.status(500).json(err)
     }
