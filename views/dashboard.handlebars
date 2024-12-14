@@ -3,26 +3,15 @@
 <div>
     {{#if blogs.length}}
     {{#each blogs as |blog|}}
-    {{> dashboardBlog blog}}
-    <br>
+    <div>
+        <h4><a href="/blog/{{blog.id}}">{{blog.title}}</a></h4>
+        <p>created on {{blog.date}}</p>
+        <a href="/edit/{{blog.id}}" data-id="{{blog.id}}">edit</a>
+        <button id="deleteBtn" data-id="{{blog.id}}">delete</button>
+    </div>
+    <br/>
     {{/each}}
     {{/if}}
 </div>
-
-{{#if (is_my_page user.id userId)}}
-<form>
-    <div>
-        <label>title</label>
-        <input id="title-input" maxlength="50" />
-    </div>
-    <div>
-        <label>body</label>
-        <textarea id="body-input" rows="10"></textarea>
-    </div>
-    <div>
-        <button type="submit">post</button>
-    </div>
-</form>
-{{/if}}
 
 <script src="/js/dashboard.js"></script>
