@@ -2,7 +2,6 @@ const router = require('express').Router()
 const { User, Blog, Comment } = require('../models')
 const withAuth = require('../utils/auth')
 
-// GET route for all blog posts and populate its user data
 router.get('/', async (req, res) => {
     try {
         const blogData = await Blog.findAll({
@@ -11,10 +10,6 @@ router.get('/', async (req, res) => {
                     model: User,
                     attributes: ['username'],
                 }
-                // {
-                //     model: Comment,
-                //     attributes: ['body']
-                // }
             ]
         })
         const blogs = blogData.map((blog) =>
@@ -31,7 +26,6 @@ router.get('/', async (req, res) => {
     }
 })
 
-// GET if use is already logged in
 router.get('/login', (req, res) => {
     if (req.session.logged_in) {
         res.redirect('/dashboard')
@@ -40,7 +34,6 @@ router.get('/login', (req, res) => {
     res.render('login')
 })
 
-// GET if use is already logged in
 router.get('/signup', (req, res) => {
     if (req.session.logged_in) {
         res.redirect('/dashboard')
@@ -49,46 +42,40 @@ router.get('/signup', (req, res) => {
     res.render('signup')
 })
 
-// GET if use is already logged in
-router.get('/dashboard', async (req, res) => {
-    if (!req.session.logged_in) {
-        res.redirect('/login')
-        return
-    }
-    const userData = await User.findOne({
-        where: {
-            id: req.session.user_id
-        },
-        include: [
-            {
-                model: Blog,
-                attributes: ['id', 'title', 'date', 'user_id']
-            }
-        ]
-    })
+router.get('/dashboard', withAuth, async (req, res) => {
+    try {
+        const userData = await User.findOne({
+            where: {
+                id: req.session.user_id
+            },
+            include: [
+                {
+                    model: Blog,
+                    attributes: ['id', 'title', 'date', 'user_id']
+                }
+            ]
+        })
 
-    const user = userData.get({ plain: true })
-    console.log(user)
-    res.render('dashboard', {
-        ...user,
-        logged_in: req.session.logged_in
-    })
+        const user = userData.get({ plain: true })
+        console.log(user)
+        res.render('dashboard', {
+            ...user,
+            logged_in: req.session.logged_in
+        })
+    } catch (err) {
+        res.status(500).json(err)
+    }
 })
 
-router.get('/post', async (req, res) => {
-    if (!req.session.logged_in) {
-        res.redirect('/login')
-        return
+router.get('/post', withAuth, async (req, res) => {
+    try {
+        res.render('post', { logged_in: req.session.logged_in })
+    } catch (err) {
+        res.status(500).json(err)
     }
-    res.render('post', { logged_in: req.session.logged_in })
 })
 
-router.get('/blog/:id', async (req, res) => {
-    if (!req.session.logged_in) {
-        res.redirect('/login')
-        return
-    }
-
+router.get('/blog/:id', withAuth, async (req, res) => {
     try {
         const blogData = await Blog.findOne({
             where: {
@@ -98,18 +85,28 @@ router.get('/blog/:id', async (req, res) => {
                 {
                     model: User,
                     attributes: ['username'],
-                },
-                {
-                    model: Comment,
-                    attributes: ['body']
                 }
             ]
         })
 
-        const blog = blogData.get({ plain: true })
+        const commentData = await Comment.findAll({
+            where: {
+                blog_id: req.params.id
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ['username']
+                }
+            ],
+        })
+
+        const blog = await blogData.get({ plain: true })
+        const comments = commentData.map((comment) => (comment.toJSON()))
 
         res.render('blog', {
-            ...blog,
+            blog,
+            comments,
             logged_in: req.session.logged_in
         })
     } catch (err) {
@@ -117,12 +114,7 @@ router.get('/blog/:id', async (req, res) => {
     }
 })
 
-router.get('/edit/:id', async (req, res) => {
-    if (!req.session.logged_in) {
-        res.redirect('/login')
-        return
-    }
-
+router.get('/edit/:id', withAuth, async (req, res) => {
     try {
         const blogData = await Blog.findOne({
             where: {
