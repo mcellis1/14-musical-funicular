@@ -22,10 +22,10 @@ router.put('/:id', withAuth, async (req, res) => {
       where: {
         id: req.params.id,
       },
-    });
+    })
 
     if (!blogData) {
-      res.status(404).json({ message: 'no blog post found' });
+      res.status(404).json({ message: 'no blog post found' })
       return
     }
 
@@ -42,16 +42,16 @@ router.delete('/:id', withAuth, async (req, res) => {
       where: {
         id: req.params.id,
       },
-    });
+    })
 
     if (!blogData) {
-      res.status(404).json({ message: 'no blog post found' });
+      res.status(404).json({ message: 'no blog post found' })
       return;
     }
 
-    res.status(200).json(blogData);
+    res.status(200).json(blogData)
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(err)
   }
 })
 

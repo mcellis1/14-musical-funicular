@@ -24,16 +24,16 @@ router.put('/:id', withAuth, async (req, res) => {
             where: {
                 id: req.params.id,
             },
-        });
+        })
 
         if (!commentData) {
-            res.status(400).json({ message: 'no comment found' });
+            res.status(400).json({ message: 'no comment found' })
             return;
         }
 
-        res.status(200).json(commentData);
+        res.status(200).json(commentData)
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).json(err)
     }
 })
 

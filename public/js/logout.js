@@ -7,10 +7,10 @@ const logout = async () => {
     });
 
     if (response.ok) {
-        document.location.replace('/');
+        document.location.replace('/')
     } else {
-        alert('failed to logout');
+        alert('failed to logout')
     }
-};
+}
 
-logoutBtn.addEventListener('click', logout);
+logoutBtn.addEventListener('click', logout)
