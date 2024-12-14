@@ -75,6 +75,14 @@ router.get('/dashboard', async (req, res) => {
     })
 })
 
+router.get('/post', async (req, res) => {
+    if (!req.session.logged_in) {
+        res.redirect('/login')
+        return
+    }
+    res.render('post', { logged_in: req.session.logged_in })
+})
+
 router.get('/blog/:id', async (req, res) => {
     if (!req.session.logged_in) {
         res.redirect('/login')
@@ -129,7 +137,7 @@ router.get('/edit/:id', async (req, res) => {
         })
 
         const blog = blogData.get({ plain: true })
-console.log(blog)
+
         res.render('edit', {
             ...blog,
             logged_in: req.session.logged_in
