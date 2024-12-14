@@ -1,9 +1,9 @@
 const commentForm = document.querySelector('#comment-form')
-const pathSegments = window.location.pathname.split('/');
+const pathSegments = window.location.pathname.split('/')
 
-const postFormHandler = async (event) => {
+const commentFormHandler = async (event) => {
     event.preventDefault();
-    const body = document.querySelector('#body-input').value.trim();
+    const body = document.querySelector('#body-input').value.trim()
 
     if (body) {
         const response = await fetch('/api/comments', {
@@ -13,14 +13,14 @@ const postFormHandler = async (event) => {
                 blog_id: `${pathSegments[2]}`
             }),
             headers: { 'Content-Type': 'application/json' },
-        });
+        })
 
-        if (response.ok) {
-            document.location.replace(`/blog/${pathSegments[2]}`);
-        } else {
-            alert('failed to post blog');
+        if (response.redirected) {
+            document.location.replace(response.url);
+            return
         }
+        document.location.replace(`/blog/${pathSegments[2]}`)
     }
 };
 
-commentForm.addEventListener('submit', postFormHandler);
+commentForm.addEventListener('submit', commentFormHandler)
