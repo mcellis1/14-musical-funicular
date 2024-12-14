@@ -1,7 +1,27 @@
 <div>
-    <h2>{{title}}</h2>
-    <p>{{date}}</p>
-    <p>{{body}}</p>
+    <h2>{{blog.title}}</h2>
+    <p>created by {{blog.user.username}} on {{blog.date}}</p>
+    <p>{{blog.body}}</p>
 </div>
 
-{{!-- <script src="./js/blog.js"></script> --}}
+{{#if comments.length}}
+{{#each comments as |comment|}}
+<div>
+    <p>{{comment.user.username}} on {{comment.date}}</p>
+    <p>{{comment.body}}</p>
+</div>
+<br />
+{{/each}}
+{{/if}}
+
+
+<form id="comment-form">
+    <div>
+        <textarea id="body-input" rows="2" placeholder="add a comment"></textarea>
+    </div>
+    <div>
+        <button type="submit">add</button>
+    </div>
+</form>
+
+<script src="/js/blog.js"></script>
