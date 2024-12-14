@@ -7,7 +7,10 @@
 {{#if comments.length}}
 {{#each comments as |comment|}}
 <div>
-    <p>{{comment.user.username}} on {{comment.date}}</p>
+    <p>
+        {{comment.user.username}}<br />
+        {{comment.date}}
+    </p>
     <p>{{comment.body}}</p>
 </div>
 <br />
