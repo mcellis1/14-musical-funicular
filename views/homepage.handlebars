@@ -1,7 +1,12 @@
-{{#each blogs}}
-<div>
-    <h2>{{title}}</h2>
-    <p>created by {{user.username}} on {{date}}</p>
-    <a href="/blog/{{id}}" data-id="{{id}}">read</a>
+<div class="card-deck">
+    {{#each blogs}}
+    <div class="card">
+        <div class="card-header">{{format_date date}}</div>
+        <div class="card-body">
+            <h5 class="card-title">{{title}}</h5>
+            <p class="card-text">created by {{user.username}}</p>
+            <a href="/blog/{{id}}" class="btn btn-info" data-id="{{id}}">read</a>
+        </div>
+    </div>
+    {{/each}}
 </div>
-{{/each}}

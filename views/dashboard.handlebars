@@ -1,21 +1,21 @@
 <h2>welcome {{username}}</h2>
 
 <div>
-    <a href="/post">create a new post</a>
+    <a href="/post" class="card-link btn btn-info">create a new post</a>
 </div>
 
-<div>
-    {{#if blogs.length}}
-    {{#each blogs as |blog|}}
-    <div>
-        <h4><a href="/blog/{{blog.id}}">{{blog.title}}</a></h4>
-        <p>created on {{blog.date}}</p>
-        <a href="/edit/{{blog.id}}" data-id="{{blog.id}}">edit</a>
-        <button id="deleteBtn" data-id="{{blog.id}}">delete</button>
+{{#if blogs.length}}
+{{#each blogs as |blog|}}
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <h4 class="card-title">{{blog.title}}</h4>
+        <h5 class="card-subtitle mb-2 text-muted">{{format_date blog.date}}</h5>
+        <a href="/blog/{{blog.id}}" class="btn btn-info" data-id="{{blog.id}}">read</a>
+        <a href="/edit/{{blog.id}}" data-id="{{blog.id}}" class="card-link btn btn-info">edit</a>
+        <a href="#" id="deleteBtn" data-id="{{blog.id}}" class="card-link btn btn-danger">delete</a>
     </div>
-    <br />
-    {{/each}}
-    {{/if}}
 </div>
+{{/each}}
+{{/if}}
 
 <script src="/js/dashboard.js"></script>
