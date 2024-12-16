@@ -8,7 +8,7 @@ const sequelize = process.env.DB_URL
     process.env.DB_USER,
     process.env.DB_PASSWORD,
     {
-      host: 'localhost',
+      host: '100.20.92.101',
       dialect: 'postgres',
     }
   );
